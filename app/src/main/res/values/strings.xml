@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">FrameLibrary</string>
+    <string name="movie_poster">Poster</string>
+    <string name="rated">Rated</string>
+    <string name="popular">Popular</string>
+    <string name="add_to_favorite">Add to favorite</string>
+    <string name="remove_from_favorite">Remove from favorite</string>
+    <string name="item_movies">Movies</string>
+    <string name="itemFavorite">Favorite</string>
+    <string name="watch_trailer">Watch trailer</string>
+    <string name="favorites_title">Favorites</string>
+    <string name="related_books_label">Related books:</string>
+    <string name="item_books">Books</string>
+    <string name="find_books_title">Find books</string>
+    <string name="search_books_hint">input book title...</string>
+    <string name="search_btn_name">Search</string>
+    <string name="related_movies_label">Related movies:</string>
+</resources>
