@@ -1,4 +1,4 @@
-package com.example.framelibrary.data;
+package com.example.framelibrary.data.movies;
 
 public class Trailer {
     private String url;

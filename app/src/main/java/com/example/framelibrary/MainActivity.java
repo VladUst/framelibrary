@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,14 +22,21 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.framelibrary.adapters.MovieAdapter;
-import com.example.framelibrary.data.Movie;
-import com.example.framelibrary.data.MovieViewModel;
+import com.example.framelibrary.data.movies.Movie;
+import com.example.framelibrary.data.movies.MovieController;
 import com.example.framelibrary.utils.MoviesJSONUtils;
 import com.example.framelibrary.utils.MoviesNetworkUtils;
 
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = (int) (displayMetrics.widthPixels / displayMetrics.density);
-        return width/185 > 2 ? width/185 : 2;
+        return Math.max(width / 185, 2);
     }
 
     private Switch switchMovieSort;
@@ -73,14 +81,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewRated;
     private TextView textViewPopular;
 
-    private MovieViewModel movieViewModel;
+    private MovieController movieController;
     private static int page = 1;
+
+    RequestQueue movieRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+        movieRequestQueue = Volley.newRequestQueue(this);
+        movieController = ViewModelProviders.of(this).get(MovieController.class);
         switchMovieSort = findViewById(R.id.switchMovieSort);
         textViewPopular = findViewById(R.id.textViewPopular);
         textViewRated = findViewById(R.id.textViewRated);
@@ -106,28 +117,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        movieAdapter.setOnListEndListener(new MovieAdapter.OnEndListListener() {
+        /*movieAdapter.setOnListEndListener(new MovieAdapter.OnEndListListener() {
             @Override
             public void uploadNewData() {
                 Toast.makeText(MainActivity.this, "End", Toast.LENGTH_SHORT).show();
             }
-        });
-        LiveData<List<Movie>> moviesFromLiveData = movieViewModel.getMovies();
+        });*/
+        LiveData<List<Movie>> moviesFromLiveData = movieController.getMovies();
         moviesFromLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
                 movieAdapter.setMovies(movies);
             }
         });
-        /*Log.i("start", "starting app");
-        JSONObject moviesJSON = NetworkUtils.getMoviesJSON(NetworkUtils.POPULARITY, 1);
-        Log.i("Movies list", "???");
-        ArrayList<Movie> movies = JSONMoviesUtils.getMoviesFromJSON(moviesJSON);
-        StringBuilder builder = new StringBuilder();
-        for(Movie movie : movies){
-            builder.append(movie.getTitle()).append("\n");
-        }
-        Log.i("Result", builder.toString());*/
     }
 
     public void onSetRated(View view) {
@@ -155,13 +157,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
      private void downloadData(int filterMethod, int page){
-        JSONObject moviesJSON = MoviesNetworkUtils.getMoviesJSON(filterMethod, page);
-        ArrayList<Movie> movies = MoviesJSONUtils.getMoviesFromJSON(moviesJSON);
-        if(movies != null && !movies.isEmpty()){
-            movieViewModel.deleteAllMovies();
-            for(Movie movie: movies){
-                movieViewModel.insertMovie(movie);
+        URL url = MoviesNetworkUtils.buildMoviesURL(filterMethod, page);
+        processMoviesRequest(url.toString());
+    }
+
+    private void processMoviesRequest(String url) {
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                ArrayList<Movie> movies = MoviesJSONUtils.getMoviesFromJSON(response);
+                if(movies != null && !movies.isEmpty()){
+                    movieController.deleteAllMovies();
+                    for(Movie movie: movies){
+                        movieController.insertMovie(movie);
+                    }
+                }
             }
-        }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        movieRequestQueue.add(request);
     }
 }

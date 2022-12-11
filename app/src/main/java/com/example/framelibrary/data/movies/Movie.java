@@ -1,4 +1,4 @@
-package com.example.framelibrary.data;
+package com.example.framelibrary.data.movies;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;

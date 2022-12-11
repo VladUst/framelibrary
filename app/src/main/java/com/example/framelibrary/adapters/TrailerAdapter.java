@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.framelibrary.R;
-import com.example.framelibrary.data.Trailer;
+import com.example.framelibrary.data.movies.Trailer;
 
 import java.util.ArrayList;
 

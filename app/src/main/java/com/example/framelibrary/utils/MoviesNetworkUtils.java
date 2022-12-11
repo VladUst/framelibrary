@@ -4,6 +4,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.framelibrary.data.movies.Movie;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,6 +21,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -47,7 +55,7 @@ public class MoviesNetworkUtils {
         return null;
     }
 
-    public static JSONObject getTrailersJSON(int id) {
+    /*public static JSONObject getTrailersJSON(int id) {
         JSONObject result = null;
         URL url = buildURLToTrailers(id);
         try {
@@ -58,9 +66,9 @@ public class MoviesNetworkUtils {
             e.printStackTrace();
         }
         return result;
-    }
+    }*/
 
-    private static URL buildMoviesURL(int sortBy, int page) {
+    public static URL buildMoviesURL(int sortBy, int page) {
         URL result = null;
         String methodOfSort;
         if (sortBy == POPULARITY) {
@@ -80,55 +88,5 @@ public class MoviesNetworkUtils {
             e.printStackTrace();
         }
         return result;
-    }
-
-    public static JSONObject getMoviesJSON(int sortBy, int page) {
-        JSONObject result = null;
-        URL url = buildMoviesURL(sortBy, page);
-        try {
-            result = new JSONLoadTask().execute(url).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    private static class JSONLoadTask extends AsyncTask<URL, Void, JSONObject> {
-        @Override
-        protected JSONObject doInBackground(URL... urls) {
-            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-            JSONObject result = null;
-            if (urls == null || urls.length == 0) {
-                return result;
-            }
-            HttpsURLConnection connection = null;
-            System.out.println("before connection");
-            try {
-                connection = (HttpsURLConnection) urls[0].openConnection();
-                System.out.println("connect to: " + connection);
-                InputStream inputStream = connection.getInputStream();
-                System.out.println("input stream: "+inputStream);
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader reader = new BufferedReader(inputStreamReader);
-                StringBuilder builder = new StringBuilder();
-                String line = reader.readLine();
-                while (line != null) {
-                    builder.append(line);
-                    line = reader.readLine();
-                }
-                result = new JSONObject(builder.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-            }
-            return result;
-        }
     }
 }

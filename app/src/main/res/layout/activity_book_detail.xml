@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/cover" />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/image_addToFavorite"
             android:layout_width="@dimen/size_of_star"
             android:layout_height="@dimen/size_of_star"
@@ -30,7 +30,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/image_bookCover"
             app:layout_constraintEnd_toEndOf="@+id/image_bookCover"
             app:layout_constraintTop_toBottomOf="@+id/image_bookCover"
-            app:srcCompat="@drawable/favourite_remove" />
+            app:srcCompat="@drawable/favourite_remove" />-->
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineCenter"
@@ -48,7 +48,7 @@
             android:layout_marginTop="16dp"
             android:text="Title:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_addToFavorite" />
+            app:layout_constraintTop_toBottomOf="@+id/image_bookCover" />
 
         <TextView
             android:id="@+id/text_titleFound"
@@ -59,7 +59,7 @@
             android:text="Interstellar - Beyond Time and Space"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
-            app:layout_constraintTop_toBottomOf="@+id/image_addToFavorite" />
+            app:layout_constraintTop_toBottomOf="@+id/image_bookCover" />
 
         <View
             style="@style/BorderStyle"
@@ -148,7 +148,7 @@
             app:layout_constraintTop_toBottomOf="@+id/text_labelDescription" />
 
 
-        <TextView
+        <!--<TextView
             android:id="@+id/text_relatedMoviesLabel"
             style="@style/LabelStyle"
             android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
             android:nestedScrollingEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_relatedMoviesLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/text_relatedMoviesLabel" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

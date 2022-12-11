@@ -1,10 +1,13 @@
-package com.example.framelibrary.data;
+package com.example.framelibrary.data.movies;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.example.framelibrary.data.movies.FavoriteMovie;
+import com.example.framelibrary.data.movies.Movie;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.framelibrary.data;
+package com.example.framelibrary.data.movies;
 
 import android.content.Context;
 

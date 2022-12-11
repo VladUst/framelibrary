@@ -1,13 +1,11 @@
 package com.example.framelibrary;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -18,9 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.framelibrary.adapters.MovieAdapter;
-import com.example.framelibrary.data.FavoriteMovie;
-import com.example.framelibrary.data.Movie;
-import com.example.framelibrary.data.MovieViewModel;
+import com.example.framelibrary.data.movies.FavoriteMovie;
+import com.example.framelibrary.data.movies.Movie;
+import com.example.framelibrary.data.movies.MovieController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewFavoriteMovies;
     private MovieAdapter adapter;
-    private MovieViewModel movieViewModel;
+    private MovieController movieController;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -72,7 +70,7 @@ public class FavoriteActivity extends AppCompatActivity {
         recyclerViewFavoriteMovies.setLayoutManager(new GridLayoutManager(this, getCountColumn()));
         adapter = new MovieAdapter();
         recyclerViewFavoriteMovies.setAdapter(adapter);
-        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+        movieController = ViewModelProviders.of(this).get(MovieController.class);
         /*LiveData<List<Movie>> moviesFromLiveData = movieViewModel.getMovies();
         moviesFromLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
@@ -80,7 +78,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 adapter.setMovies(movies);
             }
         });*/
-        LiveData<List<FavoriteMovie>> favoriteMovies = movieViewModel.getFavoriteMovies();
+        LiveData<List<FavoriteMovie>> favoriteMovies = movieController.getFavoriteMovies();
         favoriteMovies.observe(this, new Observer<List<FavoriteMovie>>() {
             @Override
             public void onChanged(List<FavoriteMovie> favoriteMovies) {

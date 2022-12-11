@@ -188,17 +188,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardViewTrailer" />
 
-
-        <include
-            layout="@layout/related_book_item"
-            android:id="@+id/related_book"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewRelatedBooksLabel"/>
-
-
            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewRelatedBooks"
                 android:nestedScrollingEnabled="false"

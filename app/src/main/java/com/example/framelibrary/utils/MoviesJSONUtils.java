@@ -1,7 +1,7 @@
 package com.example.framelibrary.utils;
 
-import com.example.framelibrary.data.Movie;
-import com.example.framelibrary.data.Trailer;
+import com.example.framelibrary.data.movies.Movie;
+import com.example.framelibrary.data.movies.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;

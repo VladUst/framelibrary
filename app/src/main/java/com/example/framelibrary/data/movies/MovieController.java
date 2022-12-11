@@ -1,4 +1,4 @@
-package com.example.framelibrary.data;
+package com.example.framelibrary.data.movies;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -10,13 +10,13 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MovieViewModel extends AndroidViewModel {
+public class MovieController extends AndroidViewModel {
 
     private static MovieDB database;
     private LiveData<List<Movie>> movies;
     LiveData<List<FavoriteMovie>> favoriteMovies;
 
-    public MovieViewModel(@NonNull Application application) {
+    public MovieController(@NonNull Application application) {
         super(application);
         database = MovieDB.getInstance(getApplication());
         movies = database.movieDao().getAllMovies();
